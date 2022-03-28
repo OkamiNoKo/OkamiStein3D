@@ -1,0 +1,9 @@
+﻿  main.cpp
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(136): warning C4018: '<': signed/unsigned mismatch
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(157): warning C4018: '<': signed/unsigned mismatch
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(110): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(203): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(204): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(120): warning C4101: 'msg': unreferenced local variable
+  OkamiStein3D.vcxproj -> C:\DrisnyaUltimatePack\Code\c&c++\OkamiStein3D\Debug\OkamiStein3D.exe
