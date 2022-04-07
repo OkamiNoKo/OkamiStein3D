@@ -1,31 +1,7 @@
-#include <windows.h>
-#include <d2d1.h>
-#pragma comment(lib,"d2d1.lib")
-
-#include <ctime>
-#include <InitGuid.h>
-
-//#include <dinput8.h>
-#pragma comment(lib, "dsound.lib")
-#pragma comment(lib, "dwrite.lib")
-#pragma comment(lib, "dinput8.lib")
-
-
-#include <dinput.h>
-#include <dsound.h>
-#include <dwrite.h>
-
-#include <iostream>
-#include <fstream>
-#include <string>
-
 #include "Box.h"
 
-struct box
-{
-	int width;
-	int hight;
-};
+box box0;
+
 //using namespace std;
 struct WaveHeaderType
 {
@@ -66,7 +42,7 @@ HWND winInit(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int 
 	HWND hWnd = CreateWindow(
 		"class",
 		"Okami",
-		WS_OVERLAPPEDWINDOW, 100, 100, 1280, 720,
+		WS_OVERLAPPEDWINDOW, 100, 100, box0.width, box0.hight,
 		NULL, NULL, hInstance, NULL);
 	return hWnd;
 }
@@ -75,6 +51,10 @@ HWND winInit(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int 
 
 int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
+	//размеры окна
+	box0.width = 1280;
+	box0.hight = 720;
+
 	HWND hWnd = winInit(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
 	IDirectInput8* pDirInp = NULL;
@@ -99,7 +79,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	factory->CreateHwndRenderTarget(
 		D2D1::RenderTargetProperties(),
 		D2D1::HwndRenderTargetProperties(
-			hWnd, D2D1::SizeU(1280, 720))
+			hWnd, D2D1::SizeU(box0.width, box0.hight))
 		, &rt);
 
 	ID2D1SolidColorBrush ** brushes = new ID2D1SolidColorBrush*[32];
@@ -120,14 +100,16 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	MSG msg;
 
 
-	box box0;
-	box0.width = 1280;
-	box0.hight = 720;
+	
 
 	int dy = 0;
 	bool flag = true;
 
 	level Level = level("materials/w1l1.txt");
+
+	didev->SetDataFormat(&c_dfDIKeyboard);
+	didev->SetCooperativeLevel(hWnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	didev->Acquire();
 	char buffer[256];
 
 	IDWriteFactory* pDWriteFactory = NULL;
@@ -143,71 +125,80 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		DWRITE_FONT_WEIGHT_REGULAR,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
-		72.0f,
+		96.0f,
 		L"en-us",
 		&pTextFormat
 	);
 
-	int VisMode = 1;
+
+
+	int VisMode = 0;
+	int act = 0;
+	int CDvis = 0;
 	while (flag)
 	{
+		act = 0;
 		rt->BeginDraw();
 		rt->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 		HRESULT hr = didev->GetDeviceState(sizeof(buffer), buffer);
-		if (Level.player.actionCooldown == 0)
+		if FAILED(hr)
+			return 0;
+		if (Level.player.actionCooldown <= 0)
 		{
-			if (buffer[DIK_RIGHT] & 0x80)
+			if ((buffer[DIK_RIGHT] & 0x80) || (buffer[DIK_D] & 0x80))
 			{
-				if (Level.player.rotation.y > 0)
-				{
-					Level.player.rotation.x += Level.player.rotation.y;
-					Level.player.rotation.y = 0;
-				}
-				else
-				{
-					Level.player.rotation.y -= Level.player.rotation.x;
-					Level.player.rotation.x = 0;
-				}
-			}
-
-			else if (buffer[DIK_LEFT] & 0x80)
-			{
-				if (Level.player.rotation.y > 0)
-				{
-					Level.player.rotation.x -= Level.player.rotation.y;
-					Level.player.rotation.y = 0;
-				}
-				else
+				if (Level.player.rotation.y == 0)
 				{
 					Level.player.rotation.y += Level.player.rotation.x;
 					Level.player.rotation.x = 0;
 				}
+				else
+				{
+					Level.player.rotation.x -= Level.player.rotation.y;
+					Level.player.rotation.y = 0;
+				}
 			}
 
-			else if (buffer[DIK_UP] & 0x80)
+			else if ((buffer[DIK_LEFT] & 0x80) || (buffer[DIK_A] & 0x80))
+			{
+				if (Level.player.rotation.y == 0)
+				{
+					Level.player.rotation.y -= Level.player.rotation.x;
+					Level.player.rotation.x = 0;
+				}
+				else
+				{
+					Level.player.rotation.x += Level.player.rotation.y;
+					Level.player.rotation.y = 0;
+				}
+			}
+
+			else if ((buffer[DIK_UP] & 0x80) || (buffer[DIK_W] & 0x80))
 			{
 				Level.player.position = Level.player.position + Level.player.rotation;
 				if (Level.map[Level.player.position.y][Level.player.position.x] == 1 || Level.map[Level.player.position.y][Level.player.position.x] == 3 || Level.map[Level.player.position.y][Level.player.position.x] == 4)
 				{
 					Level.player.position = Level.player.position - Level.player.rotation;
 				}
+				Level.player.last = 1;
 			}
 
-			else if (buffer[DIK_DOWN] & 0x80)
+			else if ((buffer[DIK_DOWN] & 0x80) || (buffer[DIK_S] & 0x80))
 			{
 				Level.player.position = Level.player.position - Level.player.rotation;
 				if (Level.map[Level.player.position.y][Level.player.position.x] == 1 || Level.map[Level.player.position.y][Level.player.position.x] == 3 || Level.map[Level.player.position.y][Level.player.position.x] == 4)
 				{
 					Level.player.position = Level.player.position + Level.player.rotation;
 				}
+				Level.player.last = -1;
 			}
 
-			if (buffer[DIK_LEFT] & 0x80 || buffer[DIK_RIGHT] & 0x80)
+			if (((buffer[DIK_LEFT] & 0x80) || (buffer[DIK_A] & 0x80)) || ((buffer[DIK_RIGHT] & 0x80) || (buffer[DIK_D] & 0x80)))
 			{
 				Level.player.actionCooldown = Level.player.RotationCD;
 			}
 
-			if (buffer[DIK_DOWN] & 0x80 || buffer[DIK_UP] & 0x80)
+			if (((buffer[DIK_UP] & 0x80) || (buffer[DIK_W] & 0x80)) || ((buffer[DIK_DOWN] & 0x80) || (buffer[DIK_S] & 0x80)))
 			{
 				Level.player.actionCooldown = Level.player.MoveCD;
 			}
@@ -217,6 +208,7 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			{
 				Level.playerFire();
 				Level.player.actionCooldown = Level.player.FireCD;
+				act = 1;
 			}
 			
 
@@ -234,19 +226,24 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 						Level.player.ammo = 0;
 						Level.player.inGun += Level.player.ammo;
 					}
+					Level.player.actionCooldown = Level.player.ReloadCD;
+					act = 2;
 				}
-				Level.player.actionCooldown = Level.player.ReloadCD;
 			}
 
 
 		}
 
-		if (buffer[DIK_M] & 0x80)
+		if (((buffer[DIK_TAB] & 0x80) || (buffer[DIK_M] & 0x80)) && CDvis <= 0)
 		{
 			VisMode = (VisMode + 1) % 2;
+			CDvis = 16;
 		}
+		CDvis--;
+		if (CDvis < 0) CDvis = 0;
 
-		Level.getTurn();
+
+
 
 		if (Level.enemy1count == 0 && Level.enemy2count == 0 && Level.map[Level.player.position.y][Level.player.position.x] == 5)
 		{
@@ -259,8 +256,21 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				flag = false;
 			}
 		}
+		Level.getTurn();
+		// acts: 0 - ничего не произошло, или произошло движение -> просто визуализировать.
+		//       1 - произошла атака игрока -> анимация удара, если противник рядом, выстрел иначе.
+		//       2 - перезарядка -> анимация перезарядки.
+		// mod: 0 - 3D
+		//      1 - режим карты с радаром живых врагов.
+		Level.boxVIS(rt, VisMode, act, box0, brushes);
+
+		Level.HUD(rt, box0, brushes, pTextFormat);
 
 		Level.player.actionCooldown -= 1;
+		if (Level.player.actionCooldown < 0)
+		{
+			Level.player.actionCooldown = -1;
+		}
 		rt->EndDraw();
 	}
 
@@ -315,8 +325,8 @@ int _stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		}
 		else
 		{
-			rt->DrawTextA(L"Game Over", 16, pTextFormat, rectf, brushes[26]);
-			rt->DrawTextA(L"Game Over", 16, pTextFormat, rectf2[counter % 31], brushes[27]);
+			rt->DrawTextA(L"Game Over", 11, pTextFormat, rectf, brushes[26]);
+			rt->DrawTextA(L"Game Over", 11, pTextFormat, rectf2[counter % 31], brushes[27]);
 		}
 
 		rt->EndDraw();

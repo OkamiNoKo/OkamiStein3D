@@ -1,9 +1,23 @@
 ﻿  main.cpp
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(136): warning C4018: '<': signed/unsigned mismatch
-c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(157): warning C4018: '<': signed/unsigned mismatch
-c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(110): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
-c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(203): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(204): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(120): warning C4101: 'msg': unreferenced local variable
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(201): warning C4018: '<': signed/unsigned mismatch
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(223): warning C4018: '<': signed/unsigned mismatch
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(324): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(344): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(563): warning C4244: '-=': conversion from 'double' to 'int', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(585): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(713): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(718): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(726): warning C4018: '<': signed/unsigned mismatch
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(728): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(733): warning C4018: '<': signed/unsigned mismatch
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(735): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(739): warning C4018: '<': signed/unsigned mismatch
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(741): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(747): warning C4018: '<': signed/unsigned mismatch
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\box.h(749): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(90): warning C4244: 'argument': conversion from 'double' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(319): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(320): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+c:\drisnyaultimatepack\code\c&c++\okamistein3d\okamistein3d\main.cpp(100): warning C4101: 'msg': unreferenced local variable
   OkamiStein3D.vcxproj -> C:\DrisnyaUltimatePack\Code\c&c++\OkamiStein3D\Debug\OkamiStein3D.exe
